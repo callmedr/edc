@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>분만 예정일</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(https://img.freepik.com/free-photo/cute-baby-with-stuffed-animal_23-2150573658.jpg?size=626&ext=jpg); /* 아기 그림 배경 이미지 경로를 넣어주세요 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.7); /* 투명도 있는 흰색 배경 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="date"],
+button {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.result {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#babyImage {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>분만 예정일 계산기</h1>
+    <label for="lastPeriod">마지막 생리 시작일:</label>
+    <input type="date" id="lastPeriod">
+    <button onclick="calculatePregnancyWeek()">계산하기</button>
+    <p class="result" id="result"></p>
+    <p class="result" id="pregnancyWeek"></p>
+    <p class="result" id="dueDate"></p>
+</div>
+
+<script>
+function calculatePregnancyWeek() {
+    var lastPeriodInput = document.getElementById("lastPeriod").value;
+    var lastPeriod = new Date(lastPeriodInput);
+    lastPeriod.setDate(lastPeriod.getDate() + 1); // 마지막 생리 시작일 다음날로 설정합니다.
+    var currentDate = new Date();
+
+    var differenceInMilliseconds = currentDate.getTime() - lastPeriod.getTime();
+    var differenceInDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+    var weeksPregnant = Math.floor(differenceInDays / 7);
+    var daysPregnant = differenceInDays % 7;
+
+    document.getElementById("result").innerHTML = "오늘은 임신 " + weeksPregnant + "주 " + daysPregnant + "일입니다.";
+
+    // 분만 예정일 계산
+    var dueDate = new Date(lastPeriod.getTime() + 280 * 24 * 60 * 60 * 1000);
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var dueDateStr = dueDate.toLocaleDateString('ko-KR', options);
+    document.getElementById("dueDate").innerHTML = "분만 예정일은 " + dueDateStr + " 입니다.";
+}
+</script>
+</body>
+</html>
